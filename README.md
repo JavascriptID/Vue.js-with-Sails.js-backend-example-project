@@ -15,7 +15,7 @@ Node.js and Sails.js.
 #### Get Node.js
 
 ```bash
-$ curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+$ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 $ sudo apt-get install -y nodejs
 ```
 
@@ -23,12 +23,6 @@ $ sudo apt-get install -y nodejs
 
 ```bash
 $ sudo npm install sails -g
-```
-
-If you don't want to install Sails.js globally run `npm install` inside the backend directory and then enter:
-
-```bash
-./node_modules/sails/bin/sails.js lift
 ```
 
 #### Install modules
@@ -41,12 +35,12 @@ $ cd ../backend && npm install
 ### Production
 
 First, you have to build up your Vue.js components and merge them with Sails.js. This can be done with 
-`cd frontend && npm run build`. Now do `cd ../backend && sails lift` and then open your browser and go to 
+`cd frontend && npm run build`. Now do `cd ../backend && NODE_ENV=production node app.js` and then open your browser and go to 
 [localhost:1337](http://localhost:1337).
 
 ### Development
 
-`cd backend && sails lift` and then `cd ../frontend && npm run dev`. After that open 
+`cd backend && sails lift` and then `cd ../frontend && npm run dev`. After that, open 
 [localhost:8080](http://localhost:8080) in your browser. Make sure that you start both servers.
 
 ## Commands
@@ -55,11 +49,16 @@ First, you have to build up your Vue.js components and merge them with Sails.js.
 
 #### Start
 
-Run the Sails application in the current directory (if `node_modules/sails` exists, it will be used instead of the 
-globally installed Sails) at [localhost:1337](http://localhost:1337).
+Run the Sails.js application in the current directory at [localhost:1337](http://localhost:1337).
 
 ```bash
 $ sails lift
+```
+
+Start Sails.js if you didn't install it globally.
+
+```bash
+$ npm run dev
 ```
 
 #### Run tests
@@ -96,6 +95,16 @@ Run all available tests like unit or functional tests.
 $ npm run test
 ```
 
+## Covered elements
+
+This project should cover as many features as possible. It should be used as an example for newbies and also serve as 
+a reference book. These notable elements are covered.
+
+- Internationalization
+- Unit and functional tests
+- Dedicated mobile version
+- Socket.IO usage
+
 ## Essential components used
 
 The following components are used in this project. There a plenty more, though, check the `package.json` files.
@@ -123,13 +132,6 @@ HTTP client for Vue.js.
 ### [vue-router](https://github.com/vuejs/vue-router)
 
 Router for the frontend.
-
-## To do
-
-- File uploads
-- upgrading to Sails.js 1.0
-- finalize checkout
-- real time frontend and backend validation
 
 ## Code style
 

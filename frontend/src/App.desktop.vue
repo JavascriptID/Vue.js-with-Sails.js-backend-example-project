@@ -1,5 +1,7 @@
 <template>
-  <div id="app">
+  <div>
+    <help-index v-if="isHelpVisible"></help-index>
+
     <b-navbar toggleable type="inverse" variant="primary">
       <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
@@ -15,6 +17,7 @@
           <b-nav-item v-if="isUserAuthenticated" :to="{ name: 'Shop'}">{{ $t('shop') }}</b-nav-item>
         </b-nav>
         <b-nav is-nav-bar class="ml-auto">
+          <b-nav-item @click="setIsHelpVisible(true)">{{ $t('help') }}</b-nav-item>
           <b-nav-item :disabled="!basket.products.length" v-if="isUserAuthenticated" :to="{ name: 'Basket'}">
             {{ $t('basket') }} ({{ basket.products.length }})
           </b-nav-item>
@@ -33,9 +36,33 @@
 </template>
 
 <script>
+  import { mapMutations } from 'vuex'
   import AppMixin from './App.mixin'
 
+  const HelpIndex = () => import('./components/help/Help.desktop')
+
   export default {
-    mixins: [AppMixin]
+    mixins: [AppMixin],
+    components: {
+      HelpIndex
+    },
+
+    computed: {
+      isHelpVisible: {
+        get () {
+          return this.$store.state.isHelpVisible
+        },
+
+        set (isHelpVisible) {
+          this.store.commit('SET_IS_HELP_VISIBLE', isHelpVisible)
+        }
+      }
+    },
+
+    methods: {
+      ...mapMutations({
+        setIsHelpVisible: 'SET_IS_HELP_VISIBLE'
+      })
+    }
   }
 </script>
