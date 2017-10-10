@@ -1,6 +1,10 @@
 <template>
   <div>
-    <help-index v-if="isHelpVisible"></help-index>
+    <help-index
+      v-if="isHelpVisible"
+      :io="io"
+      @helpMounted="setIo">
+    </help-index>
 
     <b-navbar toggleable type="inverse" variant="primary">
       <b-nav-toggle target="nav_collapse"></b-nav-toggle>
@@ -32,10 +36,18 @@
     <div class="container">
       <router-view class="mt-4"></router-view>
     </div>
+
+    <footer class="mt-3 text-center">
+      <div class="container">
+        <span class="text-muted"><small>This shop is not real and only for demonstration purposes</small></span>
+      </div>
+    </footer>
   </div>
 </template>
 
 <script>
+  import * as socketIoClient from 'socket.io-client'
+  import * as sailsIo from 'sails.io.js'
   import { mapMutations } from 'vuex'
   import AppMixin from './App.mixin'
 
@@ -43,8 +55,15 @@
 
   export default {
     mixins: [AppMixin],
+
     components: {
       HelpIndex
+    },
+
+    data () {
+      return {
+        io: null
+      }
     },
 
     computed: {
@@ -53,13 +72,42 @@
           return this.$store.state.isHelpVisible
         },
 
+        /**
+         * @param isHelpVisible
+         */
         set (isHelpVisible) {
           this.store.commit('SET_IS_HELP_VISIBLE', isHelpVisible)
         }
       }
     },
 
+    watch: {
+      isHelpVisible () {
+        if (!this.isHelpVisible) this.io.socket.disconnect()
+        if (this.isHelpVisible && this.io) this.io.socket.reconnect()
+      }
+    },
+
     methods: {
+      setIo () {
+        if (!this.io) {
+          let io = sailsIo(socketIoClient)
+
+          let isProductionEnvironment = (process.env.NODE_ENV === 'production')
+          let url
+
+          if (isProductionEnvironment) {
+            url = `${location.protocol}//${location.hostname}${location.port ? ':' + location.port : ''}`
+          } else url = 'http://localhost:1337'
+
+          io.sails.url = url
+          io.sails.environment = process.env.NODE_ENV || 'development'
+          io.sails.useCORSRouteToGetCookie = false
+
+          this.$set(this, 'io', io)
+        }
+      },
+
       ...mapMutations({
         setIsHelpVisible: 'SET_IS_HELP_VISIBLE'
       })
