@@ -5,10 +5,10 @@
     :hide-header-close="true"
     :ok-only="true"
     id="help"
-    title="Help"
+    :title="t('help.desktop.modal.title')"
     size="lg">
     <div class="card mb-2">
-      <div class="card-block">
+      <div class="card-body">
         <div v-for="message in messages">
           <p v-if="message.message.assistant" class="mb-0"><b class="mr-2">{{ message.message.assistant.name}}</b>
             {{ message.message.assistant.message }}</p>
@@ -23,11 +23,10 @@
         </div>
       </div>
     </div>
-    <b-form-input type="text" @keyup.enter="postMessage" v-model="message"
-    ></b-form-input>
+    <b-form-input type="text" @keyup.enter.native="postMessage" v-model="message"></b-form-input>
     <template slot="modal-footer">
       <b-button @click="setIsHelpVisible(false)" size="sm" variant="secondary">
-        Close
+        {{ t('help.desktop.button.first')}}
       </b-button>
     </template>
   </b-modal>
@@ -39,24 +38,23 @@
   export default {
     props: ['io'],
 
-    data () {
-      return {
-        assistant: '',
-        message: '',
-        messages: [{
-          message: {
-            assistant: {
-              name: 'System',
-              message: 'Hey, how can we help you?'
-            }
-          },
-          time: new Date().toString()
-        }]
-      }
-    },
+    data: () => ({
+      assistant: '',
+      message: '',
+      messages: [{
+        message: {
+          assistant: {
+            name: 'System',
+            message: 'Hey, how can we help you?'
+          }
+        },
+
+        time: new Date().toString()
+      }]
+    }),
 
     mounted () {
-      this.$root.$emit('show::modal', 'help')
+      this.$root.$emit('bv::show::modal', 'help')
       this.$emit('helpMounted')
     },
 
@@ -89,6 +87,7 @@
               message: this.message
             }
           },
+
           time: new Date().toString()
         })
 
@@ -100,6 +99,7 @@
                 message: message.answer
               }
             },
+
             time: new Date().toString()
           })
         })
@@ -115,7 +115,6 @@
         ]
 
         let assistant = assistants[Math.floor(Math.random() * assistants.length)]
-
         this.$set(this, 'assistant', assistant)
       },
 

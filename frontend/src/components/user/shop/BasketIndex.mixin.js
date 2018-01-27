@@ -1,19 +1,4 @@
-const BasketIndexMixin = {
-  i18n: {
-    messages: {
-      en: {
-        'button.first': 'Remove',
-        'span.first': 'Total',
-        'button.second': 'Checkout'
-      },
-      de: {
-        'button.first': 'Entfernen',
-        'span.first': 'Summe',
-        'button.second': 'Kaufen'
-      }
-    }
-  },
-
+export default {
   computed: {
     basket: {
       get () {
@@ -24,7 +9,7 @@ const BasketIndexMixin = {
     totalPrice: {
       get () {
         let totalPrice = 0
-        this.basket.products.forEach((product) => {
+        this.basket.products.forEach(product => {
           totalPrice += product.price
         })
 
@@ -34,23 +19,12 @@ const BasketIndexMixin = {
   },
 
   methods: {
-    checkout () {
-      this.$store.dispatch('checkout', this.basket)
-        .then(() => {
-          // Success message
-        })
-        .catch(() => {
-          // Error message
-        })
+    async checkout () {
+      await this.$store.dispatch('checkout', this.basket)
     },
 
-    /**
-     * @param index
-     */
     removeProduct (index) {
       this.$store.commit('REMOVE_PRODUCT_FROM_BASKET', index)
     }
   }
 }
-
-export default BasketIndexMixin

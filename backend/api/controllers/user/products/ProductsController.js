@@ -1,26 +1,17 @@
 module.exports = {
-
-  /**
-   * @param req
-   * @param res
-   */
   getProducts: (req, res) => {
-    let page = req.param('page')
-    let user = CryptographyService.decrypt(req.cookies.user)
+    const page = req.param('page')
+    const user = CryptographyService.decrypt(req.cookies.user)
 
     Product
       .count()
-      .where({
-        user: {'!': user}
-      })
+      .where({user: {'!': user}})
       .exec((error, amountOfProducts) => {
         if (error) return res.serverError(error)
 
         Product
           .find()
-          .where({
-            user: {'!': user}
-          })
+          .where({user: {'!': user}})
           .populate('user')
           .paginate({page, limit: 6})
           .exec((error, products) => {
@@ -34,20 +25,13 @@ module.exports = {
       })
   },
 
-  /**
-   * @param req
-   * @param res
-   */
   getProductsByUser: (req, res) => {
-    let user = CryptographyService.decrypt(req.cookies.user)
+    const user = CryptographyService.decrypt(req.cookies.user)
 
     Product
-      .find({
-        user
-      })
+      .find({user})
       .exec((error, products) => {
         if (error) return res.serverError(error)
-
         if (products) return res.json(products)
       })
   }

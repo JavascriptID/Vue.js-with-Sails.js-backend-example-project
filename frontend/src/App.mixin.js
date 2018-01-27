@@ -1,34 +1,13 @@
 import { mapMutations } from 'vuex'
+import locales from './locales'
 
-const AppMixin = {
+export default {
   name: 'app',
 
-  i18n: {
-    messages: {
-      en: {
-        'home': 'Home',
-        'help': 'Help',
-        'register': 'Register',
-        'login': 'Login',
-        'shop': 'Shop',
-        'basket': 'Basket',
-        'products': 'Manage products',
-        'language.changed': 'Language changed',
-        'cancelText': 'Cancel'
+  locales,
 
-      },
-      de: {
-        'home': 'Startseite',
-        'help': 'Hilfe',
-        'register': 'Registrierung',
-        'login': 'Login',
-        'shop': 'Shop',
-        'basket': 'Warenkorb',
-        'products': 'Produktverwaltung',
-        'language.changed': 'Sprache geändert',
-        'cancelText': 'Abbrechen'
-      }
-    }
+  mounted () {
+    this.$translate.setLang('en')
   },
 
   computed: {
@@ -51,5 +30,3 @@ const AppMixin = {
     })
   }
 }
-
-export default AppMixin

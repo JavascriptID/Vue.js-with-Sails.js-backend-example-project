@@ -1,31 +1,36 @@
 <template>
   <div>
     <div class="d-flex justify-content-center">
-      <b-carousel :interval="3000" background="transparent">
-        <b-carousel-slide background="transparent" height="100px">
-          <h3 class="text-info">{{ $t('h3.first') }}</h3>
-          <p class="text-muted">{{ $t('p.first') }}</p>
+      <b-carousel
+        class="mb-4"
+        background="transparent"
+        :interval="3000"
+        img-width="1100"
+        img-height="200">
+        <b-carousel-slide img-blank>
+          <h3 class="text-info">{{ t('home.mixin.h3.first') }}</h3>
+          <p class="text-muted">{{ t('home.mixin.p.first') }}</p>
         </b-carousel-slide>
 
-        <b-carousel-slide background="transparent" height="100px">
-          <h3 class="text-success">{{ $t('h3.second') }}</h3>
-          <p class="text-muted">{{ $t('p.second') }}</p>
+        <b-carousel-slide img-blank>
+          <h3 class="text-info">{{ t('home.mixin.h3.second') }}</h3>
+          <p class="text-muted">{{ t('home.mixin.p.second') }}</p>
         </b-carousel-slide>
 
-        <b-carousel-slide background="transparent" height="100px">
-          <h3 class="text-primary">{{ $t('h3.third') }}</h3>
-          <p class="text-muted">{{ $t('p.third') }}</p>
+        <b-carousel-slide img-blank>
+          <h3 class="text-info">{{ t('home.mixin.h3.third') }}</h3>
+          <p class="text-muted">{{ t('home.mixin.p.third') }}</p>
         </b-carousel-slide>
       </b-carousel>
     </div>
 
     <div class="row">
-      <div class="col-4" v-for="product in products">
+      <div class="col-4" v-for="product in products" :key="product.id">
         <b-card :key="product.id" :header="product.title" class="mb-4" show-footer>
-          <p>{{ product.description }}</p>
+          <p class="card-text">{{ product.description }}</p>
           <small slot="footer" class="text-muted">
             <span class="float-left">${{ product.price }}</span>
-            <span class="float-right">{{ $t('span.first') }} {{ product.user.name }}</span>
+            <span class="float-right">{{ t('home.mixin.span.first') }} {{ product.user.name }}</span>
           </small>
         </b-card>
       </div>

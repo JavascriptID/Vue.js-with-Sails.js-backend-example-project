@@ -1,4 +1,4 @@
-import { Vue, store, i18n, LocaleMixin } from './bootstrap.mixin'
+import { Vue, store, LocaleMixin } from './bootstrap.mixin'
 import App from './App.mobile'
 import router from './router/router.mobile'
 import MintUI from 'mint-ui'
@@ -14,20 +14,13 @@ Vue.http.interceptors.push((request, next) => {
 
   next(response => {
     if ((response.status === 404) || (response.status === 504)) {
-      router.push({
-        name: 'Home'
-      })
+      router.push({name: 'Home'})
     }
   })
 })
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.userOnly)) {
-    /**
-     * @see {@link https://stackoverflow.com/questions/10730362/get-cookie-by-name#answer-40786371}
-     * @param name
-     * @returns {string}
-     */
     const getCookie = name => {
       let a = `; ${document.cookie}`.match(`;\\s*${name}=([^;]+)`)
       return a ? a[1] : ''
@@ -35,11 +28,7 @@ router.beforeEach((to, from, next) => {
 
     if (getCookie('user')) {
       next()
-    } else {
-      router.push({
-        name: 'Login'
-      })
-    }
+    } else router.push({name: 'Login'})
   } else next()
 })
 
@@ -48,7 +37,6 @@ new Vue({
   el: '#app',
   store,
   router,
-  i18n,
   template: '<App/>',
   mixins: [LocaleMixin],
   components: {

@@ -1,8 +1,16 @@
-# Vue.js with Sails.js backend example project
+# Vue.js with Sails.js example project
+
+<p align="center">
+  <a href="https://github.com/standard/standard">
+    <img src="https://cdn.rawgit.com/standard/standard/master/badge.svg" />
+  </a>
+</p>
 
 This project is for those who are new to 
 [single-page applications](https://en.wikipedia.org/wiki/Single-page_application) and want to learn through a real 
-example. Besides that, it should cover most of the features from Sails.js and Vue.js, like a reference book. For a better understanding, you should be aware of [JavaScript ES6 features](http://es6-features.org).
+example. Besides that, it should cover most of the features from Sails.js and Vue.js, like a reference book. For a better understanding, you should be aware of [JavaScript ES6 features](http://es6-features.org) and also [async/await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function).
+
+To see this project in action, click [here](https://vue-sails-example.herokuapp.com/). **Warning**: Since free Heroku applications sleep after 30 minutes of inactivity (no web request occurred), the application may need to wake up first, which can take some seconds.
 
 ## Getting started
 
@@ -33,16 +41,16 @@ $ cd frontend && npm install
 $ cd ../backend && npm install
 ```
 
+### Development
+
+`cd backend && sails lift` and then `cd ../frontend && npm run dev`. After that, open 
+[localhost:8080](http://localhost:8080) in your browser. Make sure that you start both servers.
+
 ### Production
 
 First, you have to build up your Vue.js components and merge them with Sails.js. This can be done with 
 `cd frontend && npm run build`. Now do `cd ../backend && NODE_ENV=production node app.js` and then open your browser and go to 
 [localhost:1337](http://localhost:1337).
-
-### Development
-
-`cd backend && sails lift` and then `cd ../frontend && npm run dev`. After that, open 
-[localhost:8080](http://localhost:8080) in your browser. Make sure that you start both servers.
 
 ## Commands
 
@@ -106,6 +114,8 @@ a reference book. These notable elements are covered.
 - Dedicated mobile version
 - Socket.IO usage
 - Local storage plus cookie authentication
+- User input validation
+- Tests with Cypress.io
 
 ## Essential components used
 
@@ -138,12 +148,3 @@ Router for the frontend.
 ## Code style
 
 This project fulfils the [JavaScript Standard Style](https://standardjs.com/).
-
-## Preview
-
-To see this project in action, visit the heroku application:
-
-[https://vue-sails-example.herokuapp.com](https://vue-sails-example.herokuapp.com/)
-
-**Warning**: Since free heroku applications sleep after 30 minutes of inactivity (no web request occurred) the 
-application may need to wake up first, which can take some seconds.
